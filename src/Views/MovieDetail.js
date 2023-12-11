@@ -1,13 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 const MovieDetail = () => {
   const { state } = useLocation();
   const [movieDescription, setMovieDescription] = useState(state?.movieDesc);
-  console.log("movieDescription", movieDescription);
+  const [errorMessage,setErrorMessage] = useState('')
+
+  useEffect(()=> {
+
+   
+      if(state==null || movieDescription==undefined)
+      {
+
+        setTimeout(()=> {
+          window.location.href="/"
+        },3000)
+      }
+   
+
+   
+  },[state])
+
   return (
     <div className="flex justify-center items-center text-white  ">
-      <div className="shadow-xl rounded-sm p-2 flex bg-gray-500  mt-20 mx-20 w-1/2  rounded-xl  flex gap-20">
+     {movieDescription &&  <div className="shadow-xl rounded-sm p-2 flex bg-gray-500  mt-20 mx-20 w-1/2  rounded-xl  flex gap-20">
         <div>
           <img
             src={`https://image.tmdb.org/t/p/w185${movieDescription?.poster_path}`}
@@ -32,7 +48,9 @@ const MovieDetail = () => {
             {movieDescription?.popularity}
           </div>
         </div>
-      </div>
+      </div>}
+
+      {!state && (<div>You have to select card</div>)}
     </div>
   );
 };

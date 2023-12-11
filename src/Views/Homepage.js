@@ -8,6 +8,7 @@ const Homepage = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage,setErrorMessage] = useState("")
   const containerRef = useRef(null);
 
 
@@ -21,7 +22,7 @@ const Homepage = () => {
       setPage((prevPage) => prevPage + 1);
 
     } catch (error) {
-      console.log("Error occured", error);
+      setErrorMessage(error.message)
     } finally {
       setIsLoading(false);
     }
@@ -35,6 +36,7 @@ const Homepage = () => {
       getAllMovies();
     }
   };
+
  
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -61,6 +63,7 @@ const Homepage = () => {
 
     </div>
     {!isLoading && <p className="text-white text-center">Loading...</p>}
+    {errorMessage && <p className="text-center">{errorMessage}</p>}
 
     </div>
   );
